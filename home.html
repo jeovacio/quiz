@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz</title>
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+  <h1 class="saudacao">&#x2764; BEM-VINDO AO QUIZ DAS NUTRI &#x2764;</h1>
+  <div class="introducao">
+  <label for="participantName"></label>
+  <input type="text" id="participantName" placeholder="Digite seu nome aqui">
+    <div class="finish">
+  <div class="button">
+    <a onclick="startQuiz()">Start</a>
+  </div>
+  <span class="space"></span>
+  <div class="button">
+    <a onclick="finishQuiz()">Rank</a>
+  </div>
+  </div>
+  </div>
+
+  <script>
+    function startQuiz() {
+      const participantName = document.getElementById('participantName').value;
+      if (participantName.trim() !== "") {
+        localStorage.setItem('participantName', participantName);
+        window.location.href = 'index.html';
+      } else {
+        alert("Por favor, insira o nome do participante.");
+      
+    }
+
+    function finishQuiz() {
+      window.location.href = 'score.html';
+    }
+  }
+  </script>
+</body>
+</html>

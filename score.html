@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pontuações</title>
+  <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+  <h1>PONTUAÇÕES</h1>
+  <div class="primeiro-lugar" id="bestResult"></div>
+  <div id="results"></div>
+  <button onclick="goHome()">VOLTAR</button>
+
+  <script>
+    const quizResults = JSON.parse(localStorage.getItem('quizResults')) || [];
+    const resultsContainer = document.getElementById('results');
+    const bestResultContainer = document.getElementById('bestResult');
+    const participantName = localStorage.getItem('participantName');
+
+    function displayResults() {
+      resultsContainer.innerHTML = '';
+      bestResultContainer.innerHTML = '';
+
+      const sortedResults = quizResults.sort((a, b) => {
+        if (a.correctAnswers !== b.correctAnswers) {
+          return b.correctAnswers - a.correctAnswers;
+        } else {
+          const timeA = convertTimeToSeconds(a.totalTime);
+          const timeB = convertTimeToSeconds(b.totalTime);
+          return timeA - timeB;
+        }
+      });
+
+      sortedResults.forEach((result, index) => {
+        const resultElement = createResultElement(result.participant, result, index + 1);
+        resultsContainer.appendChild(resultElement);
+
+        if (index === 0) {
+          const bestResultElement = createResultElement(result.participant, result,"");
+          bestResultContainer.appendChild(bestResultElement);
+        }
+      });
+    }
+
+    function createResultElement(participantName, result, label) {
+      const resultElement = document.createElement('p');
+      resultElement.textContent = `${label} ${participantName}: ${result.correctAnswers} de ${result.totalQuestions} em ${result.totalTime}`;
+      return resultElement;
+    }
+
+    function convertTimeToSeconds(timeString) {
+      const [minutes, seconds] = timeString.split(':').map(Number);
+      return minutes * 60 + seconds;
+    }
+
+    function goHome() {
+      window.location.href = 'home.html';
+    }
+
+    window.onload = displayResults;
+  </script>
+</body>
+</html>
